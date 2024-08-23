@@ -1,0 +1,31 @@
+local Coin = script.Parent
+
+local Players = game:GetService("Players")
+
+function OnCoinTouch(hit)
+	-- Fire this when the coin is touched.
+	if Players:GetPlayerFromCharacter(hit.Parent) then -- Check if whoever touched it is a player
+		local Player = Players:GetPlayerFromCharacter(hit.Parent)
+		local leaderstats = Player:FindFirstChild("leaderstats")
+		local coins = leaderstats:FindFirstChild("Coins")
+		
+		-- Give the player coins
+		coins.Value = coins.Value + 1
+		
+		-- Remove the coin after.
+		Coin:Destroy() 
+	end
+end
+
+function SpinCoin()
+	-- Function to make the coin spin.
+	while true do
+		Coin.CFrame = Coin.CFrame * CFrame.Angles(0, 0.01, 0) -- Add some spin on the Y axis using CFrame.Angles()
+		Coin.Position = Vector3.new(Coin.Position.X, 2.5 + math.sin(tick()), Coin.Position.Z) -- Give the coin a floating effect using math.sin()
+		task.wait()
+	end
+end
+
+task.spawn(SpinCoin)
+
+Coin.Touched:Connect(OnCoinTouch)
