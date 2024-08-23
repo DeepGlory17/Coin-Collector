@@ -1,0 +1,26 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Coin = ReplicatedStorage:FindFirstChild("Coin") -- The coin template to be cloned
+
+local MAX_SPAWN = 40 -- Maximum number of coins that can exist at once
+local SPAWN_RATE = 0.25 -- How often a new coin is spawned (in seconds)
+
+-- Find the "Coins" folder in the workspace
+local Coins = workspace:FindFirstChild("Coins")
+
+-- Function to count the current number of coins in the workspace
+local function countCoins()
+	return #Coins:GetChildren()
+end
+
+task.spawn(function()
+	while true do
+		if countCoins() < MAX_SPAWN then
+			-- Clone the coin and set its position
+			local newCoin = Coin:Clone()
+			newCoin.Parent = Coins
+			newCoin.CFrame = CFrame.new(math.random(-100, 100), 2.5, math.random(-100, 100)) -- Use CFrame for positioning
+		end
+		
+		task.wait(SPAWN_RATE) -- Wait before spawning the next coin
+	end
+end)
