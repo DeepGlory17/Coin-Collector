@@ -1,0 +1,12 @@
+local Players = game:GetService("Players")
+
+function PlayerAdded(player)
+	-- Create the coins currency for the player.
+	local leaderstats = Instance.new("Folder", player)
+	leaderstats.Name = "leaderstats"
+	
+	local Coins = Instance.new("IntValue", leaderstats)
+	Coins.Name = "Coins"
+end
+
+Players.PlayerAdded:Connect(PlayerAdded)
